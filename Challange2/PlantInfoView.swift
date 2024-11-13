@@ -28,7 +28,17 @@ struct PlantInfoView: View {
                 .padding(.horizontal)
                     
                 HStack(alignment: .top, spacing: 10){
-                    Image("Daisy")
+                    Circle()
+                        .fill(Color(red: 0.696, green: 0.771, blue: 0.63))
+                        .frame(width: 150, height: 150)
+                        .overlay(
+                            Image("Daisy")
+                                .frame(width: 190, height: 190)
+                            )
+                        .overlay(
+                            Circle()
+                                .stroke(Color(red: 0.501, green: 0.607, blue: 0.443), lineWidth: 2)
+                                    )
                     VStack(alignment: .leading, spacing: 30){
                         Text(" - Fun Fact 1")
                             .font(.body)
