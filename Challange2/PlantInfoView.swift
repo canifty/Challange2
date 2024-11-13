@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlantInfoView: View {
-
+    
     var body: some View {
         ZStack{
             Color("backcolor")
@@ -26,7 +26,7 @@ struct PlantInfoView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
-                    
+                
                 HStack(alignment: .top, spacing: 10){
                     Image("Daisy")
                     VStack(alignment: .leading, spacing: 30){
@@ -35,16 +35,16 @@ struct PlantInfoView: View {
                         
                         Text(" - Fun Fact 2")
                             .font(.body)
-                            
+                        
                         Text(" - Fun Fact 3")
                             .font(.body)
-                            
+                        
                     }
                     Spacer()
-    
+                    
                 }
                 .padding(.horizontal, 40.0)
-
+                
                 VStack(spacing: 10) {
                     HStack(spacing: 10) {
                         
@@ -58,10 +58,8 @@ struct PlantInfoView: View {
                                     .frame(width: 90, height: 90)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             )
-                            .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
-                                        )
+                            .overlay(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2))
                         
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color(red: 0.917, green: 0.942, blue: 0.903))
@@ -74,10 +72,9 @@ struct PlantInfoView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             )
                             .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
-                                        )
-                           
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
+                            )
                     }
                     .padding(.top, 35.0)
                     
@@ -93,9 +90,9 @@ struct PlantInfoView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             )
                             .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
-                                        )
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
+                            )
                         
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color(red: 0.917, green: 0.942, blue: 0.903))
@@ -108,13 +105,10 @@ struct PlantInfoView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             )
                             .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
-                                        )
-    
-                        
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(red: 0.72, green: 0.73, blue: 0.712), lineWidth: 2)
+                            )
                     }
-                    
                 }
                 Spacer()
             }
