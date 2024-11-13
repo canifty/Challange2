@@ -7,12 +7,34 @@
 
 import SwiftUI
 
-struct PhotoLibraryView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct PhotoLibraryView {
+  
+    /// MARK: - Properties
+    @Binding var isShown: Bool
+    @Binding var image: Image?
+    @Binding var showProgress: Bool
+    @Binding var commonName: String
+    @Binding var plantName: String
+    @Binding var probability: String
+  
+    func makeCoordinator() -> Coordinator {
+        NSLog("PhotoLibraryView makeCoordinator invoked")
+        return Coordinator(isShown: $isShown, image: $image, showProgress: $showProgress, commonName: $commonName, plantName: $plantName, probability: $probability)
     }
 }
 
-#Preview {
-    PhotoLibraryView()
+extension PhotoLibraryView: UIViewControllerRepresentable {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<PhotoLibraryView>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        NSLog("PhotoLibraryView UIImagePickerController instantiated")
+        picker.delegate = context.coordinator
+        NSLog("PhotoLibraryView UIImagePickerController delegate coordinator assigned")
+        picker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        return picker
+    }
+  
+    func updateUIViewController(_ uiViewController: UIImagePickerController,
+                              context: UIViewControllerRepresentableContext<PhotoLibraryView>) {
+    
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  PlantView.swift
 //  Challange2
 //
 //  Created by Can Dindar on 04/11/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct PlantView: View {
     
     @State private var image: Image? = Image("appface")
     @State private var commonName: String = "Leefy"
@@ -83,8 +83,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct PlantView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        PlantView()
     }
 }

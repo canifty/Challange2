@@ -7,12 +7,34 @@
 
 import SwiftUI
 
-struct CameraView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct CameraView {
+    
+    /// MARK: - Properties
+    @Binding var isShown: Bool
+    @Binding var image: Image?
+    @Binding var showProgress: Bool
+    @Binding var commonName: String
+    @Binding var plantName: String
+    @Binding var probability: String
+    
+    func makeCoordinator() -> Coordinator {
+        NSLog("CameraView makeCoordinator invoked")
+        return Coordinator(isShown: $isShown, image: $image, showProgress: $showProgress, commonName: $commonName, plantName: $plantName, probability: $probability)
     }
 }
 
-#Preview {
-    CameraView()
+extension CameraView: UIViewControllerRepresentable {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<CameraView>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        NSLog("CameraView UIImagePickerController instantiated")
+        picker.delegate = context.coordinator
+        NSLog("CameraView UIImagePickerController delegate coordinator assigned")
+        picker.sourceType = UIImagePickerController.SourceType.camera
+        return picker
+    }
+  
+    func updateUIViewController(_ uiViewController: UIImagePickerController,
+                              context: UIViewControllerRepresentableContext<CameraView>) {
+    
+    }
 }
