@@ -5,6 +5,15 @@ struct Homepage: View {
     @Binding var currentOnboardingView: Int
 
     @State private var currentLevel: Int = 1
+    @State private var showCameraView: Bool = false
+    
+    @State private var image: Image? = Image("appface")
+    @State private var commonName: String = "Leefy"
+    @State private var plantName: String = ""
+    @State private var probability: String = ""
+
+    @State private var showPhotoLibraryView: Bool = false
+    @State private var showProgressView: Bool = false
 
     let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
 
@@ -84,10 +93,19 @@ struct Homepage: View {
                         }
                     }
                     Spacer().frame(height: 60)
-                    Rectangle()
-                        .frame(width: 100, height: 100)
-                        .padding(.top, 20)
+                    Button(action: {
+                        self.showCameraView.toggle()
+                    }
+                    ) {
+                        Rectangle()
+                            .frame(width: 100, height: 100)
+                            .padding(.top, 20)
+                    }
                 }
+            }
+            if (showCameraView) {
+                CameraView(isShown: $showCameraView, image: $image, showProgress: $showProgressView, commonName: $commonName, plantName: $plantName, probability: $probability)
+                    .statusBar(hidden: true)
             }
         }
         .edgesIgnoringSafeArea(.all)
