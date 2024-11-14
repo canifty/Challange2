@@ -58,7 +58,10 @@ struct Homepage: View {
                     VStack {  // Outer container
                         VStack {
                             HStack {
-                                NavigationLink(destination: PlantInfoView()) {
+                                NavigationLink(
+                                    destination: PlantInfoView(
+                                        flowerName: "Daisy")
+                                ) {
                                     VStack {
                                         ZStack {
                                             Circle()
@@ -73,7 +76,8 @@ struct Homepage: View {
                                         Text("Daisy")
                                             .foregroundStyle(
                                                 Color(
-                                                    red: 60 / 255, green: 99 / 255,
+                                                    red: 60 / 255,
+                                                    green: 99 / 255,
                                                     blue: 39 / 255)
                                             )
                                             .font(.system(size: 24))
@@ -81,24 +85,30 @@ struct Homepage: View {
                                 }
                                 Spacer()
                                     .frame(width: 50)
-                                VStack {
-                                    ZStack {
-                                        Circle()
-                                            .fill(.white)
-                                            .shadow(radius: 5)
-                                            .frame(width: 110, height: 120)
-                                        Image("Cactus")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 110, height: 110)
+                                NavigationLink(
+                                    destination: PlantInfoView(
+                                        flowerName: "Cactus")
+                                ) {
+                                    VStack {
+                                        ZStack {
+                                            Circle()
+                                                .fill(.white)
+                                                .shadow(radius: 5)
+                                                .frame(width: 110, height: 120)
+                                            Image("Cactus")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 110, height: 110)
+                                        }
+                                        Text("Cactus")
+                                            .foregroundStyle(
+                                                Color(
+                                                    red: 60 / 255,
+                                                    green: 99 / 255,
+                                                    blue: 39 / 255)
+                                            )
+                                            .font(.system(size: 24))
                                     }
-                                    Text("Cactus")
-                                        .foregroundStyle(
-                                            Color(
-                                                red: 60 / 255, green: 99 / 255,
-                                                blue: 39 / 255)
-                                        )
-                                        .font(.system(size: 24))
                                 }
                             }
                             Spacer().frame(height: 20)
@@ -113,45 +123,57 @@ struct Homepage: View {
                         Spacer().frame(height: 70)
                         VStack {
                             HStack {
-                                VStack {
-                                    ZStack {
-                                        Circle()
-                                            .fill(.white)
-                                            .shadow(radius: 5)
-                                            .frame(width: 110, height: 120)
-                                        Image("Cyclamen")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 115, height: 115)
+                                NavigationLink(
+                                    destination: PlantInfoView(
+                                        flowerName: "Cyclamen")
+                                ) {
+                                    VStack {
+                                        ZStack {
+                                            Circle()
+                                                .fill(.white)
+                                                .shadow(radius: 5)
+                                                .frame(width: 110, height: 120)
+                                            Image("Cyclamen")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 115, height: 115)
+                                        }
+                                        Text("Cyclamen")
+                                            .foregroundStyle(
+                                                Color(
+                                                    red: 60 / 255,
+                                                    green: 99 / 255,
+                                                    blue: 39 / 255)
+                                            )
+                                            .font(.system(size: 24))
                                     }
-                                    Text("Cyclamen")
-                                        .foregroundStyle(
-                                            Color(
-                                                red: 60 / 255, green: 99 / 255,
-                                                blue: 39 / 255)
-                                        )
-                                        .font(.system(size: 24))
                                 }
                                 Spacer()
                                     .frame(width: 50)
-                                VStack {
-                                    ZStack {
-                                        Circle()
-                                            .fill(.white)
-                                            .shadow(radius: 5)
-                                            .frame(width: 110, height: 120)
-                                        Image("Rosemary")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 115, height: 115)
+                                NavigationLink(
+                                    destination: PlantInfoView(
+                                        flowerName: "Rosemary")
+                                ) {
+                                    VStack {
+                                        ZStack {
+                                            Circle()
+                                                .fill(.white)
+                                                .shadow(radius: 5)
+                                                .frame(width: 110, height: 120)
+                                            Image("Rosemary")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 115, height: 115)
+                                        }
+                                        Text("Rosemary")
+                                            .foregroundStyle(
+                                                Color(
+                                                    red: 60 / 255,
+                                                    green: 99 / 255,
+                                                    blue: 39 / 255)
+                                            )
+                                            .font(.system(size: 24))
                                     }
-                                    Text("Rosemary")
-                                        .foregroundStyle(
-                                            Color(
-                                                red: 60 / 255, green: 99 / 255,
-                                                blue: 39 / 255)
-                                        )
-                                        .font(.system(size: 24))
                                 }
                             }
                             Spacer().frame(height: 20)
