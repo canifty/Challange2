@@ -14,6 +14,7 @@ struct Homepage: View {
 
     @State private var showPhotoLibraryView: Bool = false
     @State private var showProgressView: Bool = false
+    
 
     let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
 
@@ -129,6 +130,7 @@ struct Homepage: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100, height: 100)
+                            .clipShape(.rect(cornerRadius: 15))
                     }
                 }
                 if showCameraView {
