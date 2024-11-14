@@ -6,7 +6,7 @@ struct Homepage: View {
 
     @State private var currentLevel: Int = 1
     @State private var showCameraView: Bool = false
-    
+
     @State private var image: Image? = Image("appface")
     @State private var commonName: String = "Leefy"
     @State private var plantName: String = ""
@@ -53,42 +53,70 @@ struct Homepage: View {
                     VStack {  // Outer container
                         VStack {
                             HStack {
-                                Circle()
-                                    .fill(.white)
-                                    .shadow(radius: 5)
-                                    .frame(width: 110, height: 120)
-                                // Aquí podrías cargar las imágenes específicas del nivel
+                                ZStack {
+                                    Circle()
+                                        .fill(.white)
+                                        .shadow(radius: 5)
+                                        .frame(width: 110, height: 120)
+                                    Image("Daisy")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 115, height: 115)
+                                }
                                 Spacer()
                                     .frame(width: 50)
-                                Circle()
-                                    .fill(.white)
-                                    .shadow(radius: 5)
-                                    .frame(width: 110, height: 120)
+                                ZStack {
+                                    Circle()
+                                        .fill(.white)
+                                        .shadow(radius: 5)
+                                        .frame(width: 110, height: 120)
+                                    Image("Cactus")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 110, height: 110)
+                                }
                             }
                             Spacer().frame(height: 20)
                             HStack {
-                                Rectangle()
-                                    .frame(width: 300, height: 15)
+                                Image("SingleShelf")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 300, height: 26)
+
                             }
                         }
                         Spacer().frame(height: 70)
                         VStack {
                             HStack {
-                                Circle()
-                                    .fill(.white)
-                                    .shadow(radius: 5)
-                                    .frame(width: 110, height: 120)
+                                ZStack {
+                                    Circle()
+                                        .fill(.white)
+                                        .shadow(radius: 5)
+                                        .frame(width: 110, height: 120)
+                                    Image("Cyclamen")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 115, height: 115)
+                                }
                                 Spacer()
                                     .frame(width: 50)
-                                Circle()
-                                    .fill(.white)
-                                    .shadow(radius: 5)
-                                    .frame(width: 110, height: 120)
+                                ZStack {
+                                    Circle()
+                                        .fill(.white)
+                                        .shadow(radius: 5)
+                                        .frame(width: 110, height: 120)
+                                    Image("Rosemary")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 115, height: 115)
+                                }
                             }
                             Spacer().frame(height: 20)
                             HStack {
-                                Rectangle()
-                                    .frame(width: 300, height: 15)
+                                Image("SingleShelf")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 300, height: 26)
                             }
                         }
                     }
@@ -97,16 +125,23 @@ struct Homepage: View {
                         self.showCameraView.toggle()
                     }
                     ) {
-                        Rectangle()
+                        Image("ScanImage")
+                            .resizable()
+                            .scaledToFit()
                             .frame(width: 100, height: 100)
-                            .padding(.top, 20)
                     }
                 }
-            }
-            if (showCameraView) {
-                CameraView(isShown: $showCameraView, image: $image, showProgress: $showProgressView, commonName: $commonName, plantName: $plantName, probability: $probability)
+                if showCameraView {
+                    CameraView(
+                        isShown: $showCameraView, image: $image,
+                        showProgress: $showProgressView,
+                        commonName: $commonName, plantName: $plantName,
+                        probability: $probability
+                    )
                     .statusBar(hidden: true)
+                }
             }
+            .ignoresSafeArea()
         }
         .edgesIgnoringSafeArea(.all)
         .padding(0)
