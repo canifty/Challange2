@@ -6,7 +6,6 @@
 //
 import SwiftUI
 
-import SwiftUI
 
 struct PlantInfoView: View {
     var flowerName: String
@@ -59,7 +58,7 @@ struct PlantInfoView: View {
                         )
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Family: \(flowerInfo?.family ?? "")")
+                        Text("Family: \(flowerInfo?.family ?? [""])")
                             .font(.body)
                         Text("Where to Find It: \(flowerInfo?.whereToFindIt ?? "")")
                             .font(.body)
