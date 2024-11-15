@@ -68,7 +68,7 @@ struct PlantInfoView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Family")
                             .font(.system(size: 14))
-                        Text("\(flowerInfo?.family ?? "")")
+                        Text("\(flowerInfo?.family ?? [""])")
                             .font(.system(size: 18))
                             .foregroundStyle(
                                 Color(

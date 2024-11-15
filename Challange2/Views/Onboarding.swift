@@ -20,7 +20,7 @@ struct Onboarding: View {
                     .bold()
                 Text("help to be helped")
                     .font(.system(size: 32, weight: .medium))
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 30)//asas
                 Text(
                     "h2h helps you send emergency alerts to nearby people and trusted contacts."
                 )
