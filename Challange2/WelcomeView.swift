@@ -13,8 +13,8 @@ struct WelcomeView: View {
     
     var body: some View {
         ZStack {
-            Color.greenbackground
-                .ignoresSafeArea(.all)
+            Color(red: 200 / 255, green: 222 / 255, blue: 183 / 255)
+                .edgesIgnoringSafeArea(.all)
             
             Image("Leafy\(leafyStep)")
                 .resizable()
@@ -29,7 +29,7 @@ struct WelcomeView: View {
                     }
                 }
             
-            Image("nano\(nanoStep)")
+            Image("Nano\(nanoStep)")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 140, height: 133)

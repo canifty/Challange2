@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var currentOnboardingView = 1
+    @State private var currentOnboardingView = 6
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding: Bool = false
 
     var body: some View {
