@@ -19,28 +19,28 @@ let FlowerData: [String: FlowerInfo] = [
             title: "Daisy",
             imageName: "Daisy",
             family: ["Asteraceae"],
-            whereToFindIt: " gardens and grasslands",
+            whereToFindIt: "Gardens and grasslands",
             funFact: "It represents youth and childhood"
             ),
     "Cactus": FlowerInfo(
             title: "Cactus",
             imageName: "Cactus",
             family: ["Cactaceae", "Carnegiea", "Kroenleinia grusonii"],
-            whereToFindIt: " desert areas",
-            funFact: " it can live up to 150 years"
+            whereToFindIt: "Desert areas",
+            funFact: "It can live up to 150 years"
             ),
     "Rosemary": FlowerInfo(
             title: "Rosemary",
             imageName: "Rosemary",
             family: ["Lamiaceae", "Salvia rosmarinus"],
-            whereToFindIt: " warm and temperate areas",
-            funFact: " it is also called as “herb of remembrance”"
+            whereToFindIt: "Warm and temperate areas",
+            funFact: "It is also called as “herb of remembrance“"
             ),
     "Cyclamen": FlowerInfo(
             title: "Cyclamen",
             imageName: "Cyclamen",
-            family: ["Primulaceae", "Cyclamen persicum", ],
-            whereToFindIt: " woodlands and rocky habitats",
+            family: ["Primulaceae", "Cyclamen persicum"],
+            whereToFindIt: "Woodlands and rocky habitats",
             funFact: "It looks like a butterfly"
             ),
 ]

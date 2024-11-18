@@ -38,7 +38,7 @@ struct WelcomeView: View {
             
                 .onAppear {
                     Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
-                        nanoStep = (nanoStep + 1) % 3
+                        nanoStep = (nanoStep + 1) % 4
                     }
                 }
         }
