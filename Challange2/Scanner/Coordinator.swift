@@ -27,13 +27,23 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let unwrappedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        guard let unwrappedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            print("No image was selected.")
+            return
+        }
         
         Task {
             await self.postData(image: unwrappedImage) { jsonData, error in
-                guard let jsonData = jsonData else { return }
+                if let error = error {
+                    print("Error in postData: \(error.localizedDescription)")
+                    return
+                }
                 
-                // Safely unwrap the JSON data instead of force-casting
+                guard let jsonData = jsonData else {
+                    print("No data received from API.")
+                    return
+                }
+                
                 if let suggestions = jsonData["suggestions"] as? [[String: AnyObject]],
                    let firstSuggestion = suggestions.first,
                    let plantName = firstSuggestion["plant_name"] as? String,
@@ -42,8 +52,19 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                    let commonName = commonNames.first,
                    let probabilityValue = firstSuggestion["probability"] as? Double {
                     
+                    print("Plant name: \(plantName), Common name: \(commonName), Probability: \(probabilityValue)")
+                    
                     let confidenceThreshold = 0.20
                     self.probability = "Confidence: " + String(format: "%.1f", probabilityValue * 100.0) + "%"
+                    
+                    let category = probabilityValue >= confidenceThreshold ? "Cactus" : "unclassified"
+                    
+                    // Guarda la imagen en la carpeta correspondiente
+                    let fileName = self.getNextImageFileName(for: category)
+                    if let fileURL = self.saveImageToDocuments(image: unwrappedImage, category: category, fileName: fileName) {
+                        print("Image classified and saved at \(fileURL)")
+                    }
+
                     
                     if probabilityValue >= confidenceThreshold {
                         self.plantName = "\"\(plantName)\""
@@ -51,7 +72,10 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                     } else {
                         self.commonName = "Prediction unreliable"
                     }
+                } else {
+                    print("Unable to parse suggestions from JSON data.")
                 }
+                
                 self.showProgress = false
             }
         }
@@ -61,21 +85,43 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         showProgress = true
     }
     
+    func getNextImageFileName(for category: String) -> String {
+        let defaults = UserDefaults.standard
+        let key = "imageCounter-\(category)"
+        
+        // Obtener el contador actual, si no existe se inicializa en 0
+        let currentCounter = defaults.integer(forKey: key)
+        let nextCounter = currentCounter + 1
+        
+        // Actualizar el contador en UserDefaults
+        defaults.set(nextCounter, forKey: key)
+        
+        // Formatear el nombre del archivo
+        return String(format: "image-%02d.jpg", nextCounter)
+    }
+
+
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("Image picker was cancelled.")
         isCoordinatorShown = false
         showProgress = false
     }
     
     func postData(image: UIImage, completionHandler: @escaping ([String: AnyObject]?, Error?) -> Void) async {
-        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            print("Failed to convert image to JPEG data.")
+            return
+        }
         
         let parameters: [String: Any] = [
-            "api_key": "4bZ8n1qTZzWPIWwUHRm3GioZclDx10T6OP5J4W9mrWpwSzzMt9",
+            "api_key": "Ge21T0LAP11hWJBV0ql5fpHHleOGQj5AuqLd2zPT1eEvg0vzjd",
             "images": [imageData.base64EncodedString()],
             "modifiers": ["crops_fast", "similar_images", "health_all", "disease_similar_images"],
             "plant_language": "en",
             "plant_details": ["common_names"]
         ]
+        
         
         let url = URL(string: "https://api.plant.id/v2/identify")!
         
@@ -86,15 +132,53 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else { return }
             
-            // Directly decode JSON data
+            if let httpResponse = response as? HTTPURLResponse {
+                print("HTTP Status Code: \(httpResponse.statusCode)")
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                print("Non-200 HTTP response.")
+                return
+            }
+            
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject] {
+                //print("Response JSON: \(json)")
                 completionHandler(json, nil)
+            } else {
+                print("Failed to decode JSON response.")
+                completionHandler(nil, nil)
             }
         } catch {
-            NSLog("Failed to complete URL session: \(error.localizedDescription)")
+            print("Failed to complete URL session: \(error.localizedDescription)")
             completionHandler(nil, error)
         }
     }
+    
+    func saveImageToDocuments(image: UIImage, category: String, fileName: String) -> URL? {
+        guard let data = image.jpegData(compressionQuality: 1.0) else {
+            print("Failed to convert UIImage to JPEG data.")
+            return nil
+        }
+        
+        let fileManager = FileManager.default
+        do {
+            let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let categoryURL = documentsURL.appendingPathComponent(category)
+            
+            // Crea el directorio si no existe
+            if !fileManager.fileExists(atPath: categoryURL.path) {
+                try fileManager.createDirectory(at: categoryURL, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            let fileURL = categoryURL.appendingPathComponent(fileName)
+            try data.write(to: fileURL, options: .atomic)
+            print("Image saved successfully at \(fileURL.path)")
+            return fileURL
+        } catch {
+            print("Error saving image to local storage: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
 }

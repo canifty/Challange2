@@ -10,6 +10,9 @@ struct PlantInfoView: View {
     var onDismiss: (() -> Void)?
     @Environment(\.presentationMode) var presentationMode  // Para manejar la navegación hacia atrás
 
+    // Imágenes clasificadas cargadas dinámicamente
+    @State private var classifiedImages: [UIImage] = []
+
     var body: some View {
         ZStack {
             Color(red: 200 / 255, green: 222 / 255, blue: 183 / 255)
@@ -44,8 +47,7 @@ struct PlantInfoView: View {
                 }
                 .padding(.horizontal)
 
-
-                // Flower image and details
+                // Flower vector and details
                 HStack(alignment: .top, spacing: 10) {
                     ZStack {
                         Circle()
@@ -99,142 +101,74 @@ struct PlantInfoView: View {
                 }
                 .padding(.horizontal, 20)
 
-                // Buttons in a grid layout
-                VStack(spacing: 10) {
-                    HStack(spacing: 10) {
-                        Button(action: {
-                            print("Button 1 pressed")
-                        }) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(
-                                    Color(red: 0.917, green: 0.942, blue: 0.903)
-                                )
-                                .frame(width: 150, height: 150)
-                                .overlay(
-                                    Image(
-                                        systemName:
-                                            "photo.fill.on.rectangle.fill"
-                                    )
-                                    .foregroundColor(
-                                        Color(
-                                            red: 0.236, green: 0.388,
-                                            blue: 0.154)
-                                    )
-                                    .scaledToFill()
-                                    .frame(width: 90, height: 90)
-                                )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(
-                                            Color(
-                                                red: 0.72, green: 0.73,
-                                                blue: 0.712), lineWidth: 2)
-                                )
-                                .padding(.top)
-                        }
-
-                        Button(action: {
-                            print("Button 2 pressed")
-                        }) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(
-                                    Color(red: 0.917, green: 0.942, blue: 0.903)
-                                )
-                                .frame(width: 150, height: 150)
-                                .overlay(
-                                    Image(
-                                        systemName:
-                                            "photo.fill.on.rectangle.fill"
-                                    )
-                                    .foregroundColor(
-                                        Color(
-                                            red: 0.236, green: 0.388,
-                                            blue: 0.154)
-                                    )
-                                    .scaledToFill()
-                                    .frame(width: 90, height: 90)
-                                )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(
-                                            Color(
-                                                red: 0.72, green: 0.73,
-                                                blue: 0.712), lineWidth: 2)
-                                )
-                                .padding(.top)
-                        }
-                    }
-
-                    HStack(spacing: 10) {
-                        Button(action: {
-                            print("Button 3 pressed")
-                        }) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(
-                                    Color(red: 0.917, green: 0.942, blue: 0.903)
-                                )
-                                .frame(width: 150, height: 150)
-                                .overlay(
-                                    Image(
-                                        systemName:
-                                            "photo.fill.on.rectangle.fill"
-                                    )
-                                    .foregroundColor(
-                                        Color(
-                                            red: 0.236, green: 0.388,
-                                            blue: 0.154)
-                                    )
-                                    .scaledToFill()
-                                    .frame(width: 90, height: 90)
-                                )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(
-                                            Color(
-                                                red: 0.72, green: 0.73,
-                                                blue: 0.712), lineWidth: 2)
-                                )
-                                .padding(.top)
-                        }
-
-                        Button(action: {
-                            print("Button 4 pressed")
-                        }) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(
-                                    Color(red: 0.917, green: 0.942, blue: 0.903)
-                                )
-                                .frame(width: 150, height: 150)
-                                .overlay(
-                                    Image(
-                                        systemName:
-                                            "photo.fill.on.rectangle.fill"
-                                    )
-                                    .foregroundColor(
-                                        Color(
-                                            red: 0.236, green: 0.388,
-                                            blue: 0.154)
-                                    )
-                                    .scaledToFill()
-                                    .frame(width: 90, height: 90)
-                                )
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(
-                                            Color(
-                                                red: 0.72, green: 0.73,
-                                                blue: 0.712), lineWidth: 2)
-                                )
-                                .padding(.top)
-                        }
+                // Classified images in a grid layout
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    ForEach(classifiedImages, id: \.self) { image in
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 150)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                            .padding(.top)
                     }
                 }
+                .padding(.horizontal, 20)
+
                 Spacer()
             }
             .padding(.top, 20)
         }
         .navigationBarBackButtonHidden(true)  // Oculta el botón "Back" predeterminado
+        .onAppear {
+            loadClassifiedImages(for: flowerName)
+        }
     }
+
+    // Método para cargar imágenes de la carpeta local clasificadas por categoría
+    func loadClassifiedImages(for category: String) {
+        let fileManager = FileManager.default
+        do {
+            let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let categoryURL = documentsURL.appendingPathComponent(category)
+
+            // Verificar si la carpeta existe
+            guard fileManager.fileExists(atPath: categoryURL.path) else {
+                print("Category folder does not exist: \(category)")
+                return
+            }
+
+            // Iterar desde "image-01" hasta encontrar el último archivo
+            var images: [UIImage] = []
+            var counter = 1
+            while true {
+                let fileName = String(format: "image-%02d.jpg", counter)
+                let fileURL = categoryURL.appendingPathComponent(fileName)
+
+                // Verificar si el archivo existe
+                if fileManager.fileExists(atPath: fileURL.path) {
+                    if let image = UIImage(contentsOfFile: fileURL.path) {
+                        images.append(image)
+                    }
+                    counter += 1
+                } else {
+                    // Salir del bucle si no se encuentra el archivo
+                    break
+                }
+            }
+
+            // Actualizar las imágenes clasificadas
+            classifiedImages = images
+            print("Loaded \(classifiedImages.count) images for category \(category).")
+        } catch {
+            print("Error loading images for category \(category): \(error.localizedDescription)")
+        }
+    }
+
+
 }
 
 #Preview {
