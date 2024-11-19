@@ -50,22 +50,39 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                    let plantDetails = firstSuggestion["plant_details"] as? [String: AnyObject],
                    let commonNames = plantDetails["common_names"] as? [String],
                    let commonName = commonNames.first,
+                   let taxonomy = plantDetails["taxonomy"] as? [String: Any],
+                   let family = taxonomy["family"] as? String,
+                   //let taxonomy = plantDetails["taxonomy"] as? [String],
+                   //let family = taxonomy.first,
                    let probabilityValue = firstSuggestion["probability"] as? Double {
                     
                     print("Plant name: \(plantName), Common name: \(commonName), Probability: \(probabilityValue)")
+                    print("Family: \(family)")
                     
                     let confidenceThreshold = 0.20
                     self.probability = "Confidence: " + String(format: "%.1f", probabilityValue * 100.0) + "%"
+
+                    // Clasificar según el nombre de la planta
+                    let category: String
+                    if family.lowercased().contains("asteraceae") {
+                        category = "Daisy"
+                    } else if family.lowercased().contains("cactaceae") {
+                        category = "Cactus"
+                    } else if family.lowercased().contains("primulaceae") {
+                        category = "Cyclamen"
+                    } else if family.lowercased().contains("lamiaceae") {
+                        category = "Rosemary"   
+                    } else {
+                        print("Se fue a unclassified")
+                        category = "unclassified"
+                    }
                     
-                    let category = probabilityValue >= confidenceThreshold ? "Cactus" : "unclassified"
-                    
-                    // Guarda la imagen en la carpeta correspondiente
+                    // Guardar la imagen en la carpeta correspondiente
                     let fileName = self.getNextImageFileName(for: category)
                     if let fileURL = self.saveImageToDocuments(image: unwrappedImage, category: category, fileName: fileName) {
                         print("Image classified and saved at \(fileURL)")
                     }
 
-                    
                     if probabilityValue >= confidenceThreshold {
                         self.plantName = "\"\(plantName)\""
                         self.commonName = commonName
@@ -75,7 +92,6 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                 } else {
                     print("Unable to parse suggestions from JSON data.")
                 }
-                
                 self.showProgress = false
             }
         }
@@ -115,11 +131,11 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         }
         
         let parameters: [String: Any] = [
-            "api_key": "Ge21T0LAP11hWJBV0ql5fpHHleOGQj5AuqLd2zPT1eEvg0vzjd",
+            "api_key": "xbetnmB2w6rPi3pzPaYUoxo66XO2O5I2gl8eGaQ6Nncft02RvC",
             "images": [imageData.base64EncodedString()],
             "modifiers": ["crops_fast", "similar_images", "health_all", "disease_similar_images"],
             "plant_language": "en",
-            "plant_details": ["common_names"]
+            "plant_details": ["common_names", "taxonomy"]
         ]
         
         
