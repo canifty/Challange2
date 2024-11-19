@@ -132,7 +132,7 @@ struct PlantInfoView: View {
                                     .foregroundColor(Color.gray)
                                     .bold()
                                 Spacer()
-                                Text("Carnegiea Gigantea")
+                                Text("Parodia")
                                     .font(.subheadline)
                                     .bold()
 
@@ -148,7 +148,7 @@ struct PlantInfoView: View {
                                     .foregroundColor(Color.gray)
                                     .bold()
                                 Spacer()
-                                Text("Giant Cactus")
+                                Text("Cactaceae")
                                     .font(.subheadline)
                                     .foregroundColor(Color.black)
                                     .bold()
