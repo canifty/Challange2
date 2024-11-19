@@ -34,7 +34,8 @@ struct Homepage: View {
                         HStack {
                             if currentLevel != 1 {
                                 Button(action: {
-                                    currentLevel -= 1
+                                    // Update the binding to navigate back to the homepage
+                                    currentOnboardingView = 0 // Set this to the appropriate value for the homepage view
                                 }) {
                                     Image("arrow")
                                         .resizable()
@@ -43,9 +44,7 @@ struct Homepage: View {
                                 }
                             }
                             Spacer()
-                            Button(action: {
-                                currentLevel += 1
-                            }) {
+                            NavigationLink(destination: SecondLevel(currentOnboardingView: $currentOnboardingView)) {
                                 Image("arrow")
                                     .resizable()
                                     .scaledToFit()
@@ -73,6 +72,7 @@ struct Homepage: View {
                                                 .scaledToFit()
                                                 .frame(width: 115, height: 115)
                                         }
+                                        
                                         Text("Daisy")
                                             .foregroundStyle(
                                                 Color(
@@ -208,6 +208,8 @@ struct Homepage: View {
                 }
             }
             .ignoresSafeArea()
+            .navigationBarBackButtonHidden(true)  // Hides the default "Back" button
+
         }
         .edgesIgnoringSafeArea(.all)
         .padding(0)
