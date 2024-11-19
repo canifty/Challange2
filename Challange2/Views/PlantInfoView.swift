@@ -192,7 +192,6 @@ struct PlantInfoView: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.bottom, 30)
-//                    .background(.ultraThinMaterial)
                     .shadow(radius: 20)
                 }
             }

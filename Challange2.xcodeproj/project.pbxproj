@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0831B00B2CED2990001DF4CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0831B00A2CED2990001DF4CA /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		0831B00A2CED2990001DF4CA /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC25ACA52CD8CBEA00AEC96E /* Challange2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Challange2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,6 +37,7 @@
 		FC25AC9C2CD8CBEA00AEC96E = {
 			isa = PBXGroup;
 			children = (
+				0831B00A2CED2990001DF4CA /* LaunchScreen.storyboard */,
 				FC25ACA72CD8CBEA00AEC96E /* Challange2 */,
 				FC25ACA62CD8CBEA00AEC96E /* Products */,
 			);
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0831B00B2CED2990001DF4CA /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +264,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Leafy;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Leafy needs access to your camera to be able to scan plants.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -290,6 +298,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Leafy;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Leafy needs access to your camera to be able to scan plants.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

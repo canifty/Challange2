@@ -185,7 +185,7 @@ struct Homepage: View {
                             }
                         }
                     }
-                    Spacer().frame(height: 60)
+                    Spacer().frame(height: 40)
                     Button(action: {
                         self.showCameraView.toggle()
                     }

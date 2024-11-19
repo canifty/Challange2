@@ -52,8 +52,6 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                    let commonName = commonNames.first,
                    let taxonomy = plantDetails["taxonomy"] as? [String: Any],
                    let family = taxonomy["family"] as? String,
-                   //let taxonomy = plantDetails["taxonomy"] as? [String],
-                   //let family = taxonomy.first,
                    let probabilityValue = firstSuggestion["probability"] as? Double {
                     
                     print("Plant name: \(plantName), Common name: \(commonName), Probability: \(probabilityValue)")
@@ -62,7 +60,6 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                     let confidenceThreshold = 0.20
                     self.probability = "Confidence: " + String(format: "%.1f", probabilityValue * 100.0) + "%"
 
-                    // Clasificar según el nombre de la planta
                     let category: String
                     if family.lowercased().contains("asteraceae") {
                         category = "Daisy"
@@ -77,7 +74,6 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                         category = "unclassified"
                     }
                     
-                    // Guardar la imagen en la carpeta correspondiente
                     let fileName = self.getNextImageFileName(for: category)
                     if let fileURL = self.saveImageToDocuments(image: unwrappedImage, category: category, fileName: fileName) {
                         print("Image classified and saved at \(fileURL)")
@@ -105,14 +101,11 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         let defaults = UserDefaults.standard
         let key = "imageCounter-\(category)"
         
-        // Obtener el contador actual, si no existe se inicializa en 0
         let currentCounter = defaults.integer(forKey: key)
         let nextCounter = currentCounter + 1
         
-        // Actualizar el contador en UserDefaults
         defaults.set(nextCounter, forKey: key)
         
-        // Formatear el nombre del archivo
         return String(format: "image-%02d.jpg", nextCounter)
     }
 
@@ -196,5 +189,4 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
             return nil
         }
     }
-
 }
